@@ -17,11 +17,8 @@ router.get('/', (req, res) => {
 // Setting up the GET router for the details
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  const sqlText = `
-    SELECT "movies".title, "movies".description, "movies".poster
-    FROM "movies" 
-    WHERE "movies".id = $1;
-    `;
+  const sqlText = `SELECT * FROM "movies" WHERE id=$1`;
+
   pool
     .query(sqlText, [id])
     .then((result) => {
