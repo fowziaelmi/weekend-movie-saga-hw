@@ -41,7 +41,8 @@ function* fetchAllMovies() {
 }*/
 function* getMovieDetail(action) {
   try {
-    const movie = yield axios.get(`/api/movie/${action.payload}`);
+    const movieId = action.payload.id;
+    const movie = yield axios.get(`/api/movie/${movieId}`);
     console.log('got a response on movie details:', movie.data);
     yield put({ type: 'SET_DETAILS', payload: movie.data[0] });
   } catch {

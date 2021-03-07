@@ -11,9 +11,9 @@ function DetailsPage() {
   console.log('details', movieInfo);
   return (
     <>
-      <h3>{movieInfo[0].title}</h3>
-      <img src={movieInfo[0].poster}></img>
-      <p>{movieInfo[0].description}</p>
+      <h3>{movieInfo.title}</h3>
+      <img src={movieInfo.poster}></img>
+      <p>{movieInfo.description}</p>
     </>
   );
 }
