@@ -17,6 +17,8 @@ function* rootSaga() {
   yield takeEvery('GET_DETAILS', getMovieDetail);
   yield takeEvery('ADD_MOVIE', addMovie);
   yield takeEvery('FETCH_GENRES', fetchAllGenres);
+  // Now listen for the get all genres
+  yield takeEvery('GET_GENRES', getAllGenres);
 }
 
 function* fetchAllMovies() {
@@ -80,6 +82,22 @@ function* addMovie(action) {
     console.log('error in adding movie', err);
   }
 }
+
+//I'll create a different function to grab all the genres from the db
+
+function* getAllGenres() {
+  try {
+    const genres = yield axios.get('/api/genre');
+    console.log('get all:', genres.data);
+
+    yield put({
+      type: 'SET_GENRES',
+      payload: genres.data,
+    });
+  } catch (err) {
+    console.log('error in getting all genres', err);
+  }
+} // end getAllGenres
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
