@@ -9,6 +9,9 @@ function DetailsPage() {
   const movieInfo = useSelector((store) => store.movieDetails);
 
   console.log('details', movieInfo);
+
+  //now i want to add the genre from the movie details
+
   return (
     <>
       <h3>{movieInfo.title}</h3>

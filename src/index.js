@@ -43,9 +43,9 @@ function* fetchAllMovies() {
 function* getMovieDetail(action) {
   try {
     const movieId = action.payload;
-    const movie = yield axios.get(`/api/movie/${movieId}`);
+    const movie = yield axios.get(`/api/movie/${movieId.id}`);
     console.log('got a response on movie details:', movie.data);
-    yield put({ type: 'SET_DETAILS', payload: movie.data[0] });
+    yield put({ type: 'SET_DETAILS', payload: movie.data });
   } catch {
     console.log('error on details');
   }
@@ -62,7 +62,7 @@ function* fetchAllGenres() {
       payload: genres.data,
     });
   } catch (err) {
-    console.log('get all error');
+    console.log('get all error', err);
   }
 }
 

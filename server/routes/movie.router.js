@@ -33,15 +33,16 @@ router.get('/', (req, res) => {
 //Will do joins table
 router.get('/:id', (req, res) => {
   console.log('req.params', req.params);
-  const query = `SELECT "movies".title, "movies".poster,"movies".description, 
-ARRAY_AGG ("genres".name) as "all_genres"
-FROM "movies"
+  const thisMovieId = req.params.id;
+  console.log('req id ', thisMovieId);
+  const sqlText = `SELECT "movies".title, "movies".id, "movies".poster,"movies".description, 
+  JSON_AGG (name) "genres" FROM "movies"
 JOIN "movies_genres" ON "movies".id = "movies_genres".movie_id
-JOIN "genres" ON "genres".id = "movies_genres".genre_id
+JOIN "genres" ON "movies_genres".genre_id = "genres".id
 WHERE "movies".id = $1
-GROUP BY "movies".title, "movies".description, "movies".poster`;
+GROUP BY "movies".id;`;
   pool
-    .query(query, [req.params.id])
+    .query(sqlText, [thisMovieId])
     .then((response) => {
       res.send(response.rows);
     })

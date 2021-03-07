@@ -4,7 +4,7 @@ const pool = require('../modules/pool');
 
 router.get('/', (req, res) => {
   // Add query to get all genres
-  const sqlText = `SELECT * FROM "genres"`;
+  const sqlText = `SELECT * FROM "genres" ORDER BY "id" ASC;`;
   pool
     .query(sqlText)
     .then((response) => {
