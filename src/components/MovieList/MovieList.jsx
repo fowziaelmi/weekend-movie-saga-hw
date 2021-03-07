@@ -18,6 +18,11 @@ function MovieList() {
       type: 'GET_DETAILS',
       payload: thisMovie,
     });
+    // i will also do a dispatch to get the genres
+    dispatch({
+      type: 'FETCH_GENRES',
+      payload: thisMovie,
+    });
     history.push('/details');
   };
   return (
