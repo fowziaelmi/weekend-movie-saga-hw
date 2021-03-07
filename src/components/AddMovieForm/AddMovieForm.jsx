@@ -52,7 +52,7 @@ function AddMovieForm() {
           value={title}
           onChange={(evt) => setTitle(evt.target.value)}
         />
-        <input
+        <textarea
           type="text"
           placeholder="description"
           value={description}
