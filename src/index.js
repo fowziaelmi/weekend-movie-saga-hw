@@ -16,6 +16,7 @@ function* rootSaga() {
   yield takeEvery('FETCH_MOVIES', fetchAllMovies);
   yield takeEvery('GET_DETAILS', getMovieDetail);
   yield takeEvery('ADD_MOVIE', addMovie);
+  yield takeEvery('FETCH_GENRES', fetchAllGenres);
 }
 
 function* fetchAllMovies() {
@@ -47,6 +48,21 @@ function* getMovieDetail(action) {
     yield put({ type: 'SET_DETAILS', payload: movie.data[0] });
   } catch {
     console.log('error on details');
+  }
+}
+
+//get all the genres from the database
+function* fetchAllGenres() {
+  try {
+    const genres = yield axios.get('/api/genre');
+    console.log('get all:', genres.data);
+
+    yield put({
+      type: 'SET_GENRES',
+      payload: genres.data,
+    });
+  } catch (err) {
+    console.log('get all error');
   }
 }
 
