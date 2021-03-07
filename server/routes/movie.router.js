@@ -14,24 +14,9 @@ router.get('/', (req, res) => {
       res.sendStatus(500);
     });
 });
-// Setting up the GET router for the details
-/*router.get('/:id', (req, res) => {
-  const id = req.params.id;
-  const sqlText = `SELECT * FROM movies WHERE id=$1`;
 
-  pool
-    .query(sqlText, [id])
-    .then((result) => {
-      res.send(result.rows);
-    })
-    .catch((err) => {
-      console.log('Error', err);
-      res.sendStatus(500);
-    });
-});
-*/
 //Will do joins table
-router.get('/:id', (req, res) => {
+/*router.get('/:id', (req, res) => {
   console.log('req.params', req.params);
   const thisMovieId = req.params.id;
   console.log('req id ', thisMovieId);
@@ -48,6 +33,41 @@ GROUP BY "movies".id;`;
     })
     .catch((err) => {
       console.log('error on movie detals router', err);
+      res.sendStatus(500);
+    });
+}); */
+router.get('/:id', (req, res) => {
+  const movieId = req.params.id;
+  const sqlText = `
+    SELECT "movies".title, "movies".poster, "movies".description FROM "movies" 
+      WHERE "movies".id = $1;
+    `;
+  pool
+    .query(sqlText, [movieId])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log('Error', err);
+      res.sendStatus(500);
+    });
+});
+
+router.get('/genre/:id', (req, res) => {
+  const genreId = req.params.id;
+  const sqlText = `
+      SELECT "genres".name FROM "genres"
+      JOIN "movies_genres" ON "genres".id = "movies_genres".genre_id
+      JOIN "movies" ON "movies".id = "movies_genres".movie_id
+      WHERE "movies".id = $1;
+  `;
+  pool
+    .query(sqlText, [genreId])
+    .then((response) => {
+      res.send(response.rows);
+    })
+    .catch((err) => {
+      console.log(err);
       res.sendStatus(500);
     });
 });
