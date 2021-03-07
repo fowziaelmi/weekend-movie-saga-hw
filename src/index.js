@@ -15,6 +15,7 @@ import axios from 'axios';
 function* rootSaga() {
   yield takeEvery('FETCH_MOVIES', fetchAllMovies);
   yield takeEvery('GET_DETAILS', getMovieDetail);
+  yield takeEvery('ADD_MOVIE', addMovie);
 }
 
 function* fetchAllMovies() {
@@ -45,6 +46,20 @@ function* getMovieDetail(action) {
     yield put({ type: 'SET_DETAILS', payload: movie.data[0] });
   } catch {
     console.log('error on details');
+  }
+}
+
+// axios call to add new movie to server
+function* addMovie(action) {
+  console.log('in add movie', action);
+  yield axios.post('/api/movie', action.payload);
+  // fetch latest data from server
+  try {
+    yield put({
+      type: 'FETCH_MOVIES',
+    });
+  } catch (err) {
+    console.log('error in adding movie', err);
   }
 }
 
