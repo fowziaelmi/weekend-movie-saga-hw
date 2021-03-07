@@ -6,11 +6,22 @@ function AddMovieForm() {
   const [description, setDescription] = useState('');
   const [poster, setPoster] = useState('');
 
+  const addMovie = (evt) => {
+    evt.preventDefault();
+    dispatch({
+      type: 'ADD_MOVIE',
+      payload: {
+        title,
+        description,
+        poster,
+      },
+    });
+  };
   return (
     <div>
       {' '}
       Add movie form here
-      <form>
+      <form onSubmit={addMovie}>
         <input
           type="text"
           placeholder="title"
