@@ -32,6 +32,7 @@ function AddMovieForm() {
         genre,
       },
     });
+    history.push('/');
   };
 
   // handle cancel takes you back to home page
@@ -67,7 +68,7 @@ function AddMovieForm() {
         <select
           name="Genre"
           label="Pick a Genre"
-          onChange={(evt) => setNewGenre(evt.target.value)}
+          onChange={(evt) => setGenre(evt.target.value)}
           required
         >
           {genres.map((genre) => {
