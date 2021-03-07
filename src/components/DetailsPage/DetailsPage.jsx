@@ -1,4 +1,5 @@
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // will useSelector to get single movie detail from store that i havent set up yet
 
@@ -6,12 +7,8 @@ import { useSelector } from 'react-redux';
 
 function DetailsPage() {
   const movieInfo = useSelector((store) => store.movieDetails);
-  return (
-    <>
-      <h3>{movieInfo[0].title}</h3>
-      <img src={movieInfo[0].poster}></img>
-      <p>{movieInfo[0].description}</p>
-    </>
-  );
+
+  console.log('details', movieInfo);
+  return <></>;
 }
 export default DetailsPage;

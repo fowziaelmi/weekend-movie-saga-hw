@@ -14,7 +14,7 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
   yield takeEvery('FETCH_MOVIES', fetchAllMovies);
-  yield takeEvery('SET_DETAILS', getMovieDetail);
+  yield takeEvery('GET_DETAILS', getMovieDetail);
 }
 
 function* fetchAllMovies() {
@@ -25,6 +25,26 @@ function* fetchAllMovies() {
     yield put({ type: 'SET_MOVIES', payload: movies.data });
   } catch {
     console.log('get all error');
+  }
+}
+// generator function for details
+/*function* getMovieDetail(action) {
+  try {
+    const id = action.payload.id;
+    const movie = yield axios.get(`/api/movie/${id}`);
+    console.log('got a response for movie details', movie.data);
+    yield put({ type: 'SET_DETAILS', payload: movie.data });
+  } catch (err) {
+    console.error('error in getting details', err);
+  }
+}*/
+function* getMovieDetail(action) {
+  try {
+    const movie = yield axios.get(`/api/movie/${movieId}`);
+    console.log('got a response on movie details:', movie.data);
+    yield put({ type: 'SET_DETAILS', payload: movie.data[0] });
+  } catch {
+    console.log('error on details');
   }
 }
 
@@ -41,16 +61,6 @@ const movies = (state = [], action) => {
   }
 };
 // Saga generator for movie details
-function* getMovieDetail(action) {
-  try {
-    const movieId = action.payload.id;
-    const movie = yield axios.get(`/api/movie/${movieId}`);
-    console.log('got a response for movie details', movie.data);
-    yield put({ type: 'SET_DETAILS', payload: movie.data });
-  } catch (err) {
-    console.error('error in getting details', err);
-  }
-}
 
 // Used to store the movie genres
 const genres = (state = [], action) => {
@@ -62,7 +72,7 @@ const genres = (state = [], action) => {
   }
 };
 // Create a new store for the movie details
-const movieDetails = (state = [], action) => {
+const movieDetails = (state = {}, action) => {
   switch (action.type) {
     case 'SET_DETAILS':
       return action.payload;

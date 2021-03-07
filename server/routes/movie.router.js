@@ -15,9 +15,9 @@ router.get('/', (req, res) => {
     });
 });
 // Setting up the GET router for the details
-router.get('/:id', (req, res) => {
+/*router.get('/:id', (req, res) => {
   const id = req.params.id;
-  const sqlText = `SELECT * FROM "movies" WHERE id=$1`;
+  const sqlText = `SELECT * FROM movies WHERE id=$1`;
 
   pool
     .query(sqlText, [id])
@@ -29,6 +29,28 @@ router.get('/:id', (req, res) => {
       res.sendStatus(500);
     });
 });
+*/
+//Will do joins table
+router.get('/:id', (req, res) => {
+  console.log('req.params', req.params);
+  const query = `SELECT "movies".title, "movies".poster,"movies".description, 
+ARRAY_AGG ("genres".name) as "all_genres"
+FROM "movies"
+JOIN "movies_genres" ON "movies".id = "movies_genres".movie_id
+JOIN "genres" ON "genres".id = "movies_genres".genre_id
+WHERE "movies".id = $1
+GROUP BY "movies".title, "movies".description, "movies".poster`;
+  pool
+    .query(query, [req.params.id])
+    .then((response) => {
+      res.send(response.rows);
+    })
+    .catch((err) => {
+      console.log('error on movie detals router', err);
+      res.sendStatus(500);
+    });
+});
+
 router.post('/', (req, res) => {
   console.log(req.body);
   // RETURNING "id" will give us back the id of the created movie
