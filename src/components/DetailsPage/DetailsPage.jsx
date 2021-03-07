@@ -9,6 +9,12 @@ function DetailsPage() {
   const movieInfo = useSelector((store) => store.movieDetails);
 
   console.log('details', movieInfo);
-  return <></>;
+  return (
+    <>
+      <h3>{movieInfo[0].title}</h3>
+      <img src={movieInfo[0].poster}></img>
+      <p>{movieInfo[0].description}</p>
+    </>
+  );
 }
 export default DetailsPage;
