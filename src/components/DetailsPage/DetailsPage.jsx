@@ -10,13 +10,20 @@ function DetailsPage() {
 
   console.log('details', movieInfo);
 
-  //now i want to add the genre from the movie details
-
+  //now i want to add the genre
+  const genres = useSelector((store) => store.genres);
   return (
     <>
       <h3>{movieInfo.title}</h3>
       <img src={movieInfo.poster}></img>
       <p>{movieInfo.description}</p>
+      <div>
+        {' '}
+        The Genres are:
+        {genres.map((genre) => {
+          return <p key={genre.name}>{genre.name}</p>;
+        })}
+      </div>
     </>
   );
 }
